@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
 import '../../../data/constant/endpoint.dart';
-import '../../../data/model/response_login.dart';
+
 import '../../../data/provider/api_provider.dart';
-import '../../../data/provider/storage_provider.dart';
+
 
 class RegisterController extends GetxController {
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();

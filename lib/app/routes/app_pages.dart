@@ -5,8 +5,6 @@ import '../modules/book_detail/views/book_detail_view.dart';
 import '../modules/book_list/bindings/book_list_binding.dart';
 import '../modules/book_list/views/book_list_view.dart';
 import '../modules/home/bindings/home_binding.dart';
-import '../modules/home/bindings/home_binding.dart';
-import '../modules/home/views/home_view.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
