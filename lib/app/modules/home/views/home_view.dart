@@ -1,10 +1,13 @@
-import 'package:bukubuku_2/app/data/model/Product_model.dart';
 import 'package:bukubuku_2/app/routes/app_colors.dart';
+import 'package:bukubuku_2/app/routes/app_pages.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
 import '../controllers/home_controller.dart';
+import 'materials/menubuttonhome.dart';
+import 'materials/responsivebottomnavigation.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
@@ -12,165 +15,130 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.keyboard_arrow_left),
-          onPressed: () {},
-        ),
-        actions: <Widget>[
-          IconButton(
-              color: TextColor,
-              onPressed: () {},
-              icon: const Icon(Icons.search)),
-          IconButton(
-              color: TextColor,
-              onPressed: () {},
-              icon: const Icon(Icons.add_shopping_cart)),
-          const SizedBox(
-            width: DefaultPadding / 2,
-          )
-        ],
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          //Header
+      backgroundColor: BgColor,
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   title: const Text('HomeView'),
+      //   centerTitle: true,
+      // ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: DefaultPadding),
-            child: Text(
-              "Women",
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.bold),
-            ),
-          ),
+      body: SafeArea(
+        child: Obx(() {
+          // current date(tanggal sekarang)
+          var now = new DateTime.now();
+          var formatter = new DateFormat('yyyy-MM-dd');
+          String formattedDate = formatter.format(now);
 
-          //Slider Categories
+          var userData =
+              controller.user.value; // Ambil data pengguna dari controller
+          if (userData != null) {
+            return Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      //Nama
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Hi, ${userData.nama}!',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 2,
+                          ),
+                          Text(
+                            '${formattedDate}',
+                            style: TextStyle(
+                              color: Colors.white54,
+                              fontSize: 12,
+                            ),
+                          )
+                        ],
+                      ),
 
-          const Categories(),
+                      //History peminjaman
+                      InkWell(
+                        onTap: () => Get.toNamed(Routes.BOOK_LIST),
+                        // borderRadius: BorderRadius.circular(24), // Sesuaikan dengan bentuk yang diinginkan
+                        child: Icon(
+                          Icons.history,
+                          size: 28,
+                          color: Colors.white,
+                        ),
+                      )
+                    ],
+                  ),
 
-          //Card Product barang
-          Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: DefaultPadding),
-                child: GridView.builder(
-                  itemCount: products.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.75,
-                      mainAxisExtent: MediaQuery.of(context).size.height * 0.42,
-                      crossAxisSpacing: 15),
-                  itemBuilder: (context, index) =>
-                      ItemCard(product: products[index]),
-                ),
-              )
-          )
-        ],
-      ),
-    );
-  }
-}
+                  SizedBox(
+                    height: 20,
+                  ),
+                  // SearchBar
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.white38),
+                    padding: EdgeInsets.all(12),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.search,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          'Search',
+                          style: TextStyle(color: Colors.white),
+                        )
+                      ],
+                    ),
+                  ),
 
-//statefull widget untuk categories
-class Categories extends StatefulWidget {
-  const Categories({super.key});
-
-  @override
-  _CategoriesState createState() => _CategoriesState();
-}
-
-class _CategoriesState extends State<Categories> {
-  List<String> categories = ['Hand Bag', 'Jewellry', 'Footwear', 'Dresses'];
-  int selectedindex = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: DefaultPadding),
-      child: SizedBox(
-        height: 25,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: categories.length,
-          itemBuilder: (context, index) => Buildcategory(index),
-        ),
-      ),
-    );
-  }
-
-  Widget Buildcategory(int index) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedindex = index;
-        });
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: DefaultPadding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              categories[index],
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: selectedindex == index ? TextColor : TextLightColor,
+                  SizedBox(
+                    height: 25,
+                  ),
+                  //menu button
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "How do you feel",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Icon(
+                        Icons.more_horiz,
+                        color: Colors.white,
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  // Menubutton
+                  MenuHome(),
+                ],
               ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 3),
-              height: 2,
-              width: 30,
-              color: selectedindex == index ? Colors.black : Colors.transparent,
-            )
-          ],
-        ),
+            );
+          } else {
+            return const CircularProgressIndicator(); // Tampilkan indikator loading jika data masih dimuat
+          }
+        }),
       ),
-    );
-  }
-}
 
-// stateless untuk product list
-
-class ItemCard extends StatelessWidget {
-  const ItemCard({super.key, this.product, this.press});
-
-  final Product? product;
-  final Function? press;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: EdgeInsets.all(DefaultPadding),
-            // height: 180,
-            // width: 160,
-            decoration: BoxDecoration(
-                color: product?.color, borderRadius: BorderRadius.circular(16)),
-            child: Image.asset(
-              product!.image,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: DefaultPadding / 4),
-            child: Text(
-              product!.title,
-              style: TextStyle(color: TextColor),
-            ),
-          ),
-          Text(
-            "${product?.price}",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          )
-        ],
+      bottomNavigationBar: MyBottomNavigationBar(
+        currentIndex: 1,
       ),
     );
   }

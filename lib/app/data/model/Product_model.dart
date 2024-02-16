@@ -19,7 +19,7 @@ class Product {
 List<Product> products = [
   Product(
       id: 1,
-      title: 'Office Code',
+      title: 'David 2077',
       price: 123,
       size: 12,
       description: "dsadadadadadadadadwdsadawdsdawdsdawdsdasdawdsadawdsw",
@@ -30,11 +30,25 @@ List<Product> products = [
       title: 'Office Code',
       price: 123,
       size: 12,
-      description: "dsadadadadadadadadwdsadawdsdawdsdawdsdasdawdsadawdsw",
-      image: "assets/img/contoh buku.jpg",
-      color: Color(0xFF3D82AE)),
+      description: "dsadadaddsadsadadadasdsssssssssssssssssssssssssss"
+          "ssss"
+          ""
+          "sssssssssssssssssssssssssssssssssss"
+          "ssssssssssssssssssssssssssssssssssssssss"
+          ""
+          "sssssssssssssssssadadadadadwdsadawdsdawdsdawdsdasdawdsadawdsw",
+      image: "assets/img/contohbuku2.jpg",
+      color: Color(0xFFFF6464)),
   Product(
       id: 3,
+      title: 'Office Code',
+      price: 123,
+      size: 12,
+      description: "dsadadadadadadadadwdsadawdsdawdsdawdsdasdawdsadawdsw",
+      image: "assets/img/buku ke 3.jpg",
+      color: Color(0xFFF8C078)),
+  Product(
+      id: 4,
       title: 'Office Code',
       price: 123,
       size: 12,
@@ -42,7 +56,7 @@ List<Product> products = [
       image: "assets/img/contoh buku.jpg",
       color: Color(0xFF3D82AE)),
   Product(
-      id: 4,
+      id: 5,
       title: 'Office Code',
       price: 123,
       size: 12,

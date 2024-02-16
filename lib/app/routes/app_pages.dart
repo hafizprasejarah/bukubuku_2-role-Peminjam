@@ -2,26 +2,29 @@ import 'package:get/get.dart';
 
 import '../modules/book_detail/bindings/book_detail_binding.dart';
 import '../modules/book_detail/views/book_detail_view.dart';
+import '../modules/book_list/bindings/book_list_binding.dart';
+import '../modules/book_list/views/book_list_view.dart';
 import '../modules/home/bindings/home_binding.dart';
+import '../modules/home/bindings/home_binding.dart';
+import '../modules/home/views/home_view.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/peminjaman/bindings/peminjaman_binding.dart';
+import '../modules/peminjaman/views/peminjaman_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
+import '../modules/user/bindings/user_binding.dart';
+import '../modules/user/views/user_view.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.LOGIN;
 
   static final routes = [
-    GetPage(
-      name: _Paths.HOME,
-      page: () => const HomeView(),
-      binding: HomeBinding(),
-    ),
     GetPage(
       name: _Paths.LOGIN,
       page: () => const LoginView(),
@@ -36,6 +39,26 @@ class AppPages {
       name: _Paths.BOOK_DETAIL,
       page: () => const BookDetailView(),
       binding: BookDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.BOOK_LIST,
+      page: () => const BookListView(),
+      binding: BookListBinding(),
+    ),
+    GetPage(
+      name: _Paths.PEMINJAMAN,
+      page: () => const PeminjamanView(),
+      binding: PeminjamanBinding(),
+    ),
+    GetPage(
+      name: _Paths.HOME,
+      page: () => const HomeView(),
+      binding: HomeBinding(),
+    ),
+    GetPage(
+      name: _Paths.USER,
+      page: () => const UserView(),
+      binding: UserBinding(),
     ),
   ];
 }
