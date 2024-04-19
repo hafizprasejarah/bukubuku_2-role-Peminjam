@@ -1,6 +1,6 @@
 class Endpoint {
   static const String baseUrlApi = "${Url}api/v1/user/";
-  static const String Url = "http://192.168.79.213:8000/";
+  static const String Url = "http://192.168.234.213:8000/";
 
   static const String login = "${baseUrlApi}login";
   static const String register = "${baseUrlApi}register";
