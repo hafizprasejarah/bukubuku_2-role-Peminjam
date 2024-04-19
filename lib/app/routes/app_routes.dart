@@ -10,6 +10,14 @@ abstract class Routes {
   static const PEMINJAMAN = _Paths.PEMINJAMAN;
   static const HOME = _Paths.HOME;
   static const USER = _Paths.USER;
+
+  static const KOLEKSI = _Paths.KOLEKSI;
+  static const ULASAN = _Paths.ULASAN;
+  static const DENDA = _Paths.DENDA;
+  static const DIPINJAM = _Paths.DIPINJAM;
+  static const SEARCHTAP = _Paths.SEARCHTAP;
+  static const EMAILADMIN = _Paths.EMAILADMIN;
+
 }
 
 abstract class _Paths {
@@ -21,4 +29,11 @@ abstract class _Paths {
   static const PEMINJAMAN = '/peminjaman';
   static const HOME = '/home';
   static const USER = '/user';
+  static const KOLEKSI = '/koleksi';
+  static const ULASAN = '/ulasan';
+  static const DENDA = '/denda';
+  static const DIPINJAM = '/dipinjam';
+  static const SEARCHTAP = '/searchtap';
+  static const EMAILADMIN = '/emailadmin';
+
 }

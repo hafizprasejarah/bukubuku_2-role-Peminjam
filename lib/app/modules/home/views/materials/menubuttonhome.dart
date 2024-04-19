@@ -16,9 +16,9 @@ class MenuHome extends StatelessWidget {
       children: [
         //menu button
         MenuHomeButton(icon: Icons.list, press: () => Get.toNamed(Routes.BOOK_LIST),text: "Daftar Buku"),
-        MenuHomeButton(icon: Icons.add, press: () => Get.toNamed(Routes.BOOK_LIST),text: "Daftar Keinginan"),
-        MenuHomeButton(icon: Icons.book_rounded, press: () => Get.toNamed(Routes.BOOK_LIST),text: "Dipinjam"),
-        MenuHomeButton(icon: Icons.book, press: () => Get.toNamed(Routes.BOOK_LIST),text: "Belum Kepikiran"),
+        MenuHomeButton(icon: Icons.add, press: () => Get.toNamed(Routes.KOLEKSI),text: "Koleksi"),
+        MenuHomeButton(icon: Icons.book_rounded, press: () => Get.toNamed(Routes.DIPINJAM),text: "Dipinjam"),
+        MenuHomeButton(icon: Icons.email, press: () => Get.toNamed(Routes.EMAILADMIN),text: "Hubungi Admin"),
 
         // profil
 
@@ -30,26 +30,26 @@ class MenuHome extends StatelessWidget {
   MenuHomeButton({required IconData icon, required VoidCallback press, required String text}) {
     return Column(
       children: [
-        Container(
-          decoration: BoxDecoration(
-              color: Colors.white38,
-              borderRadius: BorderRadius.circular(12)
-          ),
-          padding: EdgeInsets.all(9),
-          child: Center(child: Column(
-            children: [
-              InkWell(
-                onTap: press,
-                // borderRadius: BorderRadius.circular(24), // Sesuaikan dengan bentuk yang diinginkan
+        Center(child: Column(
+          children: [
+            InkWell(
+              onTap: press,
+              // borderRadius: BorderRadius.circular(24), // Sesuaikan dengan bentuk yang diinginkan
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white38,
+                    borderRadius: BorderRadius.circular(12)
+                ),
+                padding: EdgeInsets.all(9),
                 child: Icon(
                   icon,
                   size: 28,
                   color: Colors.white,
                 ),
               ),
-            ],
-          )),
-        ),
+            ),
+          ],
+        )),
         SizedBox(
           height: 8,
         ),

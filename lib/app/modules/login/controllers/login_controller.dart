@@ -1,11 +1,14 @@
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/constant/endpoint.dart';
 import '../../../data/model/response_login.dart';
 import '../../../data/provider/api_provider.dart';
 import '../../../data/provider/storage_provider.dart';
+import '../../../routes/SharedPreferencesKeys.dart';
 import '../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
@@ -19,6 +22,8 @@ class LoginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    checkLoginStatus();
+
   }
 
   @override
@@ -46,8 +51,16 @@ class LoginController extends GetxController {
 
         if (response.statusCode == 200) {
           final ResponseLogin responseLogin = ResponseLogin.fromJson(response.data);
-          await StorageProvider.write(StorageKey.idUser, responseLogin.data!.user!.toString());
-          await StorageProvider.write(StorageKey.token, responseLogin.data!.token!);
+          if(responseLogin.data!.token != null){
+
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setString(SharedPreferencesKeys.token, responseLogin.data!.token.toString());
+            prefs.setString(SharedPreferencesKeys.userId, responseLogin.data!.user!.id.toString());
+
+          }else{
+            Get.snackbar("Sorry", "token tidak ada", backgroundColor: Colors.orange);
+          }
+
           await StorageProvider.write(StorageKey.status, "logged");
           Get.offAllNamed(Routes.HOME);
         } else {
@@ -70,4 +83,23 @@ class LoginController extends GetxController {
     }
   }
 
+  void checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString(SharedPreferencesKeys.token);
+    String? userId = prefs.getString(SharedPreferencesKeys.userId);
+    if (token != null) {
+      bool hasExpired = JwtDecoder.isExpired(token);
+      if (hasExpired) {
+        print(hasExpired);
+        Get.offNamed(Routes.LOGIN);
+      } else {
+        Get.offNamed(Routes.HOME);
+        print(hasExpired);
+      }
+    } else {
+      print('Token is null');
+    }
+  }
 }
+
+

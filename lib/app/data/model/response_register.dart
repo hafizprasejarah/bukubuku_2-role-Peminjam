@@ -1,84 +1,81 @@
-/// status : 201
-/// message : "success"
-/// data : {"nama":"said","username":"said","telp":"085","alamat":"alamat","role":"PEMINJAM","updated_at":"2024-01-09T05:36:44.000000Z","created_at":"2024-01-09T05:36:44.000000Z","id":2}
-
 class ResponseRegister {
   ResponseRegister({
-      this.status, 
-      this.message, 
-      this.data,});
+    num? status,
+    String? message,
+    DataRegister? data,
+  }){
+    _status = status;
+    _message = message;
+    _data = data;
+  }
 
   ResponseRegister.fromJson(dynamic json) {
-    status = json['status'];
-    message = json['message'];
-    data = json['data'] != null ? DataRegister.fromJson(json['data']) : null;
-  }
-  int? status;
-  String? message;
-  DataRegister? data;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['status'] = status;
-    map['message'] = message;
-    if (data != null) {
-      map['data'] = data?.toJson();
-    }
-    return map;
+    _status = json['status'];
+    _message = json['message'];
+    _data = json['data'] != null ? DataRegister.fromJson(json['data']) : null;
   }
 
+  num? _status;
+  String? _message;
+  DataRegister? _data;
+
+  num? get status => _status;
+  String? get message => _message;
+  DataRegister? get data => _data;
 }
-
-/// nama : "said"
-/// username : "said"
-/// telp : "085"
-/// alamat : "alamat"
-/// role : "PEMINJAM"
-/// updated_at : "2024-01-09T05:36:44.000000Z"
-/// created_at : "2024-01-09T05:36:44.000000Z"
-/// id : 2
 
 class DataRegister {
   DataRegister({
-      this.nama, 
-      this.username, 
-      this.telp, 
-      this.alamat, 
-      this.role, 
-      this.updatedAt, 
-      this.createdAt, 
-      this.id,});
+    String? nama,
+    String? username,
+    String? email,
+    String? telp,
+    String? alamat,
+    String? role,
+    String? updatedAt,
+    String? createdAt,
+    num? id,
+  }) {
+    _nama = nama;
+    _username = username;
+    _email = email;
+    _telp = telp;
+    _alamat = alamat;
+    _role = role;
+    _updatedAt = updatedAt;
+    _createdAt = createdAt;
+    _id = id;
+  }
 
   DataRegister.fromJson(dynamic json) {
-    nama = json['nama'];
-    username = json['username'];
-    telp = json['telp'];
-    alamat = json['alamat'];
-    role = json['role'];
-    updatedAt = json['updated_at'];
-    createdAt = json['created_at'];
-    id = json['id'];
-  }
-  String? nama;
-  String? username;
-  String? telp;
-  String? alamat;
-  String? role;
-  String? updatedAt;
-  String? createdAt;
-  int? id;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['nama'] = nama;
-    map['username'] = username;
-    map['telp'] = telp;
-    map['alamat'] = alamat;
-    map['role'] = role;
-    map['updated_at'] = updatedAt;
-    map['created_at'] = createdAt;
-    map['id'] = id;
-    return map;
+    _nama = json['nama'];
+    _username = json['username'];
+    _email = json['email'];
+    _telp = json['telp'];
+    _alamat = json['alamat'];
+    _role = json['role'];
+    _updatedAt = json['updated_at'];
+    _createdAt = json['created_at'];
+    _id = json['id'];
   }
 
+  String? _nama;
+  String? _username;
+  String? _email;
+  String? _telp;
+  String? _alamat;
+  String? _role;
+  String? _updatedAt;
+  String? _createdAt;
+  num? _id;
+
+  String? get nama => _nama;
+  String? get username => _username;
+  String? get email => _email;
+  String? get telp => _telp;
+  String? get alamat => _alamat;
+  String? get role => _role;
+  String? get updatedAt => _updatedAt;
+  String? get createdAt => _createdAt;
+  num? get id => _id;
 }

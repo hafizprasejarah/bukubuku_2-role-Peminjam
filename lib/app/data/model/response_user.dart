@@ -5,18 +5,18 @@ class ResponseUser {
     this.data,
   });
 
-  num? status;
-  String? message;
-  DataUser? data;
-
-  ResponseUser.fromJson(dynamic json) {
+  ResponseUser.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
     data = json['data'] != null ? DataUser.fromJson(json['data']) : null;
   }
 
+  num? status;
+  String? message;
+  DataUser? data;
+
   Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
+    final Map<String, dynamic> map = {};
     map['status'] = status;
     map['message'] = message;
     if (data != null) {
@@ -28,32 +28,10 @@ class ResponseUser {
 
 class DataUser {
   DataUser({
-    this.user,
-    this.token,
-  });
-
-  User? user;
-  String? token;
-
-  DataUser.fromJson(dynamic json) {
-    user = json['user'] != null ? User.fromJson(json['user']) : null;
-    token = json['token'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    if (user != null) {
-      map['user'] = user!.toJson();
-    }
-    map['token'] = token;
-    return map;
-  }
-}
-
-class User {
-  User({
     this.id,
     this.username,
+    this.email,
+    this.image,
     this.nama,
     this.telp,
     this.alamat,
@@ -62,18 +40,11 @@ class User {
     this.updatedAt,
   });
 
-  num? id;
-  String? username;
-  String? nama;
-  String? telp;
-  String? alamat;
-  String? role;
-  String? createdAt;
-  String? updatedAt;
-
-  User.fromJson(dynamic json) {
+  DataUser.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     username = json['username'];
+    email = json['email'];
+    image = json['image'];
     nama = json['nama'];
     telp = json['telp'];
     alamat = json['alamat'];
@@ -82,10 +53,23 @@ class User {
     updatedAt = json['updated_at'];
   }
 
+  num? id;
+  String? username;
+  String? email;
+  String? image;
+  String? nama;
+  String? telp;
+  String? alamat;
+  String? role;
+  String? createdAt;
+  String? updatedAt;
+
   Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
+    final Map<String, dynamic> map = {};
     map['id'] = id;
     map['username'] = username;
+    map['email'] = email;
+    map['image'] = image;
     map['nama'] = nama;
     map['telp'] = telp;
     map['alamat'] = alamat;

@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
@@ -10,6 +10,7 @@ import '../../../data/provider/api_provider.dart';
 class RegisterController extends GetxController {
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   final TextEditingController namaController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController telpController = TextEditingController();
   final TextEditingController alamatController = TextEditingController();
@@ -41,11 +42,13 @@ class RegisterController extends GetxController {
         final response = await ApiProvider.instance().post(Endpoint.register,
             data: ({
               "nama": namaController.text.toString(),
+              "email": emailController.text.toString(),
               "username": usernameController.text.toString(),
               "telp": telpController.text.toString(),
               "alamat": alamatController.text.toString(),
               "password": passwordController.text.toString(),
             }));
+
 
         if (response.statusCode == 201) {
           Get.back();
