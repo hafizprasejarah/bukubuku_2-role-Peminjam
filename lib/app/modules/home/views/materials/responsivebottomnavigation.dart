@@ -17,13 +17,13 @@ class MyBottomNavigationBar extends StatelessWidget {
         switch (index) {
           case 0:
            // Navigasi ke halaman home
-            Get.offAllNamed(Routes.DENDA);
+            Get.toNamed(Routes.DENDA);
             break;
           case 1:
-            Get.offAllNamed(Routes.HOME);// Navigasi ke halaman notifications
+            Get.toNamed(Routes.HOME);// Navigasi ke halaman notifications
             break;
           case 2:
-            Get.offAllNamed(Routes.USER);  // Navigasi ke halaman settings
+            Get.toNamed(Routes.USER);  // Navigasi ke halaman settings
             break;
           default:
         }

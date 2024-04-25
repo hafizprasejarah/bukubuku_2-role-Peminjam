@@ -21,6 +21,7 @@ class UserController extends GetxController {
   final TextEditingController telpController = TextEditingController();
   final TextEditingController alamatController = TextEditingController();
   final Rx<XFile?> selectedImage = Rx<XFile?>(null);
+
   final count = 0.obs;
 
   @override

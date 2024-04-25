@@ -1,9 +1,11 @@
+import 'package:bukubuku_2/app/modules/ulasan/controllers/ulasan_controller.dart';
 import 'package:bukubuku_2/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
 import '../../../data/constant/endpoint.dart';
+import '../../../data/model/response_listUlasan.dart';
 import '../../../routes/app_colors.dart';
 import '../controllers/book_detail_controller.dart';
 
@@ -12,6 +14,8 @@ class BookDetailView extends GetView<BookDetailController> {
 
   @override
   Widget build(BuildContext context) {
+    final bookId = Get.arguments.id;
+    controller.setBookId(bookId);
     return Scaffold(
       backgroundColor: BgColor,
       appBar: AppBar(
@@ -34,6 +38,7 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final BookDetailController controller = Get.find();
     Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
@@ -70,7 +75,7 @@ class Body extends StatelessWidget {
                                   Text('Rating'),
                                   Row(
                                     children: [
-                                      RatingStar(rating: 4,maxRating: 5, filledStar: Icons.star,
+                                      RatingStar(rating: controller.average,maxRating: 5, filledStar: Icons.star,
                                         unfilledStar: Icons.star_border,
                                         color: Colors.amber,)
                                     ],
@@ -121,7 +126,7 @@ class Body extends StatelessWidget {
                                 child: IconButton(
                                   icon: Icon(Icons.comment_rounded),
                                   onPressed: () {
-                                    Get.toNamed(Routes.ULASAN);
+                                    Get.toNamed(Routes.ULASAN,arguments: Get.arguments.id);
                                   },
                                 ),
                               ),
@@ -267,28 +272,27 @@ class ProductTitleWithImage extends StatelessWidget {
 }
 
 class RatingStar extends StatelessWidget {
-  final int rating;
+  final RxInt rating;
   final int maxRating;
   final IconData filledStar;
   final IconData unfilledStar;
   final Color color;
-
   const RatingStar({
     Key? key,
     required this.rating,
-    this.maxRating = 5,
-    this.filledStar = Icons.star,
-    this.unfilledStar = Icons.star_border,
-    this.color = Colors.amber,
+    required this.maxRating,
+    required this.filledStar,
+    required this.unfilledStar,
+    required this.color,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Obx(() => Row(
       children: List.generate(
         maxRating,
             (index) {
-          if (index < rating) {
+          if (index < rating.value) {
             return Icon(
               filledStar,
               color: color,
@@ -301,7 +305,7 @@ class RatingStar extends StatelessWidget {
           }
         },
       ),
-    );
+    ));
   }
 }
 

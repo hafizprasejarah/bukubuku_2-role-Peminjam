@@ -6,22 +6,35 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/constant/endpoint.dart';
+import '../../../data/model/response_listUlasan.dart';
 import '../../../data/provider/api_provider.dart';
 import '../../../data/provider/storage_provider.dart';
 import '../../../routes/SharedPreferencesKeys.dart';
 
 class BookDetailController extends GetxController {
+  RxList<DataUlasanList?> ulasan = <DataUlasanList?>[].obs;
+  RxInt average = RxInt(0);
+  late int bookId;
 
+  void setBookId(int id) {
+    bookId = id;
+  }
+
+  int getBookId() {
+    return bookId;
+  }
 
   final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
+    getData();
   }
 
   @override
   void onReady() {
     super.onReady();
+
   }
 
   @override
@@ -113,5 +126,55 @@ class BookDetailController extends GetxController {
     }
   }
 
+  Future<void> getData() async {
+    try {
+      // Ambil token JWT dari penyimpanan lokal
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString(SharedPreferencesKeys.token);
+      String? userid = prefs.getString(SharedPreferencesKeys.userId);
+      // Lakukan permintaan GET dengan header yang disertakan
+      final response = await ApiProvider.instance().get(
+        Endpoint.ulasan+'/$bookId',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
 
+      // Periksa apakah respons sukses (status code 200)
+      if (response.statusCode == 200) {
+        final ResponseListUlasan responseUser = ResponseListUlasan.fromJson(response.data);
+        if (responseUser.data != null) {
+          ulasan.value = responseUser.data as List<DataUlasanList?>;
+
+
+          // Hitung total nilai rating
+          double totalRating = 0;
+          ulasan.forEach((ulasan) {
+            totalRating += ulasan!.rating ?? 0;
+          });
+
+          // Hitung rata-rata rating
+          average.value = ulasan.isNotEmpty ? (totalRating / ulasan.length).toInt() : 0;
+
+          print('ini rata rata rating :$average');
+
+        } else {
+          Get.snackbar('Error', 'Response data is null',
+              backgroundColor: Colors.red);
+        }
+      } else {
+        // Tangani jika permintaan tidak berhasil
+        // Misalnya, tampilkan pesan kesalahan kepada pengguna
+        Get.snackbar('Error', 'Failed to fetch user data',
+            backgroundColor: Colors.red);
+      }
+    } catch (e) {
+      // Tangani kesalahan jika terjadi
+      // Misalnya, tampilkan pesan kesalahan kepada pengguna
+      Get.snackbar('Error', 'An error occurred: $e',
+          backgroundColor: Colors.red);
+    }
+  }
 }

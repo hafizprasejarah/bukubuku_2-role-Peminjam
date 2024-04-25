@@ -142,7 +142,7 @@ class _CheckBoxMultiState extends State<CheckBoxMulti> {
                           width: 80,
                           child: Image.network('${Endpoint.Url}${item.book!.book!.image}',fit: BoxFit.fill,)),
                       SizedBox(width: 5,),
-                      Text(item.title.length > 10 ? '${item.title.substring(0, 10)}...' : item.title,overflow: TextOverflow.ellipsis,),
+                      Text(item.title.length > 9 ? '${item.title.substring(0, 9)}...' : item.title,overflow: TextOverflow.ellipsis,),
                     ],
                   ),
                 ),

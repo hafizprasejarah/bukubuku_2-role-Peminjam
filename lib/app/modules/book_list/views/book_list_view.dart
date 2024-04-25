@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:bukubuku_2/app/data/model/response_kategori.dart';
 import 'package:flutter/material.dart';
 
@@ -41,62 +39,80 @@ class BookListView extends GetView<BookListController> {
         centerTitle: true,
       ),
       body: Column(
-        children: [
-        Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: DefaultPadding),
-            child: SearchView(controller: controller.SearchController,  onChanged: (value) {
-              controller.UpdateList();
-            },),
+            child: SearchView(
+              controller: controller.SearchController,
+              onChanged: (value) {
+                controller.UpdateList();
+              },
+            ),
           ),
           Tap(selectedCategory: "tidak dikategorikan"),
-          ]),
-          Obx(
-                () {
-                  if (controller.books!= <DataBook>[] && controller.books!.isNotEmpty) {
-                    return Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: DefaultPadding),
-                        child: GridView.builder(
-                          itemCount: controller.books!.length,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.75,
-                            crossAxisSpacing: 9,
-                            mainAxisSpacing: 9,
-                          ),
-                          itemBuilder: (context, index) => GestureDetector(
-                            onTap: () => Get.toNamed(Routes.BOOK_DETAIL, arguments: controller.books![index]),
-                            child: SearchGridCells(book: controller.books![index]),
-                          ),
-                        ),
-                      ),
-                    );
-                  } else {
-                    return Expanded(
-                      child: Center(
-                        child: Text(
-                          "Tidak ada buku di kategori ${controller.kategori2}",
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                    );
-                  }
-                },
-          ),
+         Obx(() {
+
+           return Expanded(
+             child: PageView.builder(
+               itemCount: controller.kategori!.length,
+               controller: controller.pageController,
+               onPageChanged: (index) {
+                 controller.pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+                 final reversedIndex = controller.kategori!.length - index - 1;
+                 controller.updateSelectedIndex(index);
+                 controller.kategori2 = controller.kategori![reversedIndex].nama!;
+                 controller.getData(controller.kategori![reversedIndex].nama!);
+               },
+               itemBuilder: (context, index) {
+                 return Obx(
+                       () {
+                     if (controller.books != <DataBook>[] &&
+                         controller.books!.isNotEmpty) {
+                       return Padding(
+                         padding: const EdgeInsets.symmetric(horizontal: DefaultPadding),
+                         child: GridView.builder(
+                           itemCount: controller.books!.length,
+                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                             crossAxisCount: 2,
+                             childAspectRatio: 0.75,
+                             crossAxisSpacing: 9,
+                             mainAxisSpacing: 9,
+                           ),
+                           itemBuilder: (context, index) => GestureDetector(
+                             onTap: () => Get.toNamed(Routes.BOOK_DETAIL, arguments: controller.books![index]),
+                             child: SearchGridCells(book: controller.books![index]),
+                           ),
+                         ),
+                       );
+                     } else {
+                       return Center(
+                         child: Text(
+                           "Tidak ada buku di kategori ${controller.kategori2}",
+                           style: TextStyle(fontSize: 18),
+                         ),
+                       );
+                     }
+                   },
+                 );
+               },
+             ),
+           );
+         })
         ],
       ),
     );
   }
 }
+
+
+
+
 //statefull widget untuk categories
 class Categories extends StatefulWidget {
   final Function(String) onCategorySelected;
-
-  const Categories({super.key, required this.onCategorySelected});
+  const Categories({Key? key, required this.onCategorySelected});
 
   @override
   _CategoriesState createState() => _CategoriesState();
@@ -104,11 +120,11 @@ class Categories extends StatefulWidget {
 
 class _CategoriesState extends State<Categories> {
   final BookListController controller = Get.find<BookListController>();
-  int selectedindex = 0;
-
+  int index2 = 0;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext contexts) {
     return Obx(() {
+      index2 = controller.selectedIndex.value;
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: SizedBox(
@@ -130,11 +146,10 @@ class _CategoriesState extends State<Categories> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          selectedindex = index;
+          controller.selectedIndex.value = index;
+          controller.pageController.jumpToPage(index);
         });
-        widget.onCategorySelected(
-          category.nama!,
-        );
+        widget.onCategorySelected(category.nama!);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: DefaultPadding),
@@ -145,14 +160,14 @@ class _CategoriesState extends State<Categories> {
               category!.nama!,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: selectedindex == index ? TextColor : TextLightColor,
+                color: controller.selectedIndex.value == index ? TextColor : TextLightColor,
               ),
             ),
             Container(
               margin: const EdgeInsets.only(top: 3),
               height: 2,
               width: 30,
-              color: selectedindex == index ? Colors.black : Colors.transparent,
+              color: controller.selectedIndex.value == index ? Colors.black : Colors.transparent,
             )
           ],
         ),
@@ -160,6 +175,7 @@ class _CategoriesState extends State<Categories> {
     );
   }
 }
+
 
 class SearchView extends StatefulWidget {
   final TextEditingController controller;

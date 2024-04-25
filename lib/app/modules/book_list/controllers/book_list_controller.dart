@@ -8,7 +8,6 @@ import 'package:get_storage/get_storage.dart';
 import '../../../data/constant/endpoint.dart';
 import '../../../data/provider/api_provider.dart';
 
-
 class BookListController extends GetxController {
   RxList<DataBook>? books = <DataBook>[].obs;
   final TextEditingController SearchController = TextEditingController();
@@ -16,12 +15,21 @@ class BookListController extends GetxController {
   String kategori2 = '';
   final loading = false.obs;
   final count = 0.obs;
+  RxInt selectedIndex = 0.obs;
+  RxInt Index = 0.obs;
 
+  void updateSelectedIndex(int index) {
+      selectedIndex.value = index;
+      Index.value = index;
+  }
+
+  late PageController pageController;
   @override
   void onInit() {
     super.onInit();
     getData(null);
     getDataKategori();
+    pageController = PageController();
   }
 
   @override
@@ -32,6 +40,7 @@ class BookListController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+    pageController.dispose();
   }
 
   // Future<void> getData(String? kategori) async {
@@ -71,6 +80,8 @@ class BookListController extends GetxController {
       if (kategori == null) {
         kategori = "tidak dikategorikan";
       }
+// Menunda eksekusi selama 1 detik sebelum melakukan permintaan API
+//       await Future.delayed(Duration(milliseconds: 100));
 
       final response = await ApiProvider.instance().get(
         '${Endpoint.book}?kategori=$kategori',

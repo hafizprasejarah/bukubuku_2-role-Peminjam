@@ -113,7 +113,6 @@ class DipinjamView extends GetView<DipinjamController> {
                               ),
                             ],
                           ),
-                          trailing: Icon(Icons.chevron_right,color: Colors.white,),
                         ),
                       ),
                     );
