@@ -126,6 +126,45 @@ class BookDetailController extends GetxController {
     }
   }
 
+  Future<void> addPemesanan(String? bookID) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString(SharedPreferencesKeys.token);
+      String? userid = prefs.getString(SharedPreferencesKeys.userId);
+
+      Map<String, dynamic> userData = {
+        'user_id':  userid,
+        'book_id':  bookID
+      };
+
+      final response = await ApiProvider.instance().post(
+        Endpoint.koleksi,
+        data: dio.FormData.fromMap(userData),
+        options: Options(
+          headers:{
+            'Authorization': 'Bearer $token',
+          },
+        ),// Menggunakan dio.FormData
+      );
+
+      if (response.statusCode == 201) {
+        Get.snackbar("Berhasil", "Buku telah di tambahkan ke Pemesanan", backgroundColor: Colors.green);
+      } else {
+        Get.snackbar("Sorry", "Gagal", backgroundColor: Colors.orange);
+      }
+    } on dio.DioException catch (e) {
+      if (e.response != null) {
+        if (e.response?.data != null) {
+          Get.snackbar("sorry", "Buku sudah ada di Pemesanan", backgroundColor: Colors.orange);
+        }
+      } else {
+        Get.snackbar("sorry", e.message ?? "", backgroundColor: Colors.red);
+      }
+    } catch (e) {
+      Get.snackbar("error", e.toString(), backgroundColor: Colors.red);
+    }
+  }
+
   Future<void> getData() async {
     try {
       // Ambil token JWT dari penyimpanan lokal

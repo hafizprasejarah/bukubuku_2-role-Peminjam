@@ -143,7 +143,7 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
-  List<String> categories = ['Diproses', 'Dipinjam','Dikembalikan'];
+  List<String> categories = ['Diproses','Dikonfirmasi', 'Dipinjam', 'kembali','Gagal','Denda'];
   int selectedindex = 0;
 
   @override

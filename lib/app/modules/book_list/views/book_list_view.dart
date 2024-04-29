@@ -90,7 +90,7 @@ class BookListView extends GetView<BookListController> {
                        return Center(
                          child: Text(
                            "Tidak ada buku di kategori ${controller.kategori2}",
-                           style: TextStyle(fontSize: 18),
+                           style: TextStyle(fontSize: 12),
                          ),
                        );
                      }

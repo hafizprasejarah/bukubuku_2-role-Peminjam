@@ -137,7 +137,33 @@ class Body extends StatelessWidget {
                                       style: ElevatedButton.styleFrom(
                                           primary: Colors.blue),
                                       onPressed: () {
-                                        Get.toNamed(Routes.PEMINJAMAN, arguments: Get.arguments);
+                                        var arguments = Get.arguments;
+                                        showModalBottomSheet(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                ListTile(
+                                                  title: const Text('Langsung Pinjam'),
+                                                  onTap: () {
+                                                    // Navigasi ke halaman peminjaman
+                                                    Get.toNamed(Routes.PEMINJAMAN, arguments: arguments);
+                                                  },
+                                                ),
+                                                ListTile(
+                                                  title: const Text('Pesan'),
+                                                  onTap: () {
+                                                    // Implementasi logika untuk pesan
+                                                    // Misalnya, menampilkan snackbar atau pesan informasi
+                                                    Get.back(); // Tutup bottom sheet
+                                                    controller.addPemesanan(arguments.id.toString());
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
                                       },
                                       child: Text(
                                         'Pinjam'.toUpperCase(),

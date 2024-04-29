@@ -13,8 +13,7 @@ import '../../../routes/app_pages.dart';
 
 class PeminjamanController extends GetxController {
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
-  final TextEditingController tglpinjamController = TextEditingController();
-  final TextEditingController tglkembaliController = TextEditingController();
+
   final loading = false.obs;
   final count = 0.obs;
 
@@ -34,7 +33,7 @@ class PeminjamanController extends GetxController {
     super.onClose();
   }
 
-  pinjam(int? bookid) async {
+  pinjam(int? bookid,String tngglpinjam, String tngglkembali) async {
     loading(true);
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -48,8 +47,8 @@ class PeminjamanController extends GetxController {
         final response = await ApiProvider.instance().post(
           Endpoint.pinjam,
           data: ({
-            "tanggal_pinjam": tglpinjamController.text.toString(),
-            "tanggal_kembali": tglkembaliController.text.toString(),
+            "tanggal_pinjam": tngglpinjam,
+            "tanggal_kembali": tngglkembali,
             "user_id": userid,
             "book_id": bookid
           }),
@@ -73,7 +72,7 @@ class PeminjamanController extends GetxController {
       loading(false);
       if (e.response != null) {
         if (e.response?.data != null)
-          Get.snackbar("sorry", "${e.response?.data['message']}",
+          Get.snackbar("sorry", "Buku sudah ada di Peminjaman",
               backgroundColor: Colors.orange);
       } else {
         Get.snackbar("sorry", e.message ?? "", backgroundColor: Colors.red);

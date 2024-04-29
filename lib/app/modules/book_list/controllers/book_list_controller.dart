@@ -141,30 +141,40 @@ class BookListController extends GetxController {
   }
 
 
-  void UpdateList() async{
+  void UpdateList() async {
     try {
       String TextValue = SearchController.text;
+      if (TextValue == "") {
+        await getData(kategori2);
+      } else {
+        final response = await ApiProvider.instance().get(
+          '${Endpoint.search}?judul=$TextValue',
+        );
+
+        if (response.statusCode == 200) {
+          final ResponseBook responseBook =
+          ResponseBook.fromJson(response.data);
+          if (responseBook.data != null) {
+            books!.value = responseBook.data! as List<DataBook>;
+          } else {
+            // Handle case where data is empty for the selected category
+            Get.snackbar(
+                'Error', 'Data buku kosong untuk kategori yang dipilih',
+                backgroundColor: Colors.red);
+          }
+        } else {
+          // Tampilkan pesan error jika terjadi kesalahan saat mencari
+          Get.snackbar(
+              'Error', 'Gagal melakukan pencarian: ${response.data['message']}',
+              backgroundColor: Colors.red);
+        }
+      }
       // print(' dasdaw : ${TextValue}');
       // Kirim permintaan pencarian ke server menggunakan API
-      final response = await ApiProvider.instance().get(
-        '${Endpoint.search}?judul=$TextValue',
-      );
-
-      if (response.statusCode == 200) {
-        final ResponseBook responseBook = ResponseBook.fromJson(response.data);
-        if (responseBook.data != null) {
-          books!.value = responseBook.data! as List<DataBook>;
-        } else {
-          // Handle case where data is empty for the selected category
-          Get.snackbar('Error', 'Data buku kosong untuk kategori yang dipilih', backgroundColor: Colors.red);
-        }
-      } else {
-        // Tampilkan pesan error jika terjadi kesalahan saat mencari
-        Get.snackbar('Error', 'Gagal melakukan pencarian: ${response.data['message']}', backgroundColor: Colors.red);
-      }
     } catch (e) {
       // Tangani kesalahan jika terjadi kesalahan saat melakukan permintaan API
-      Get.snackbar('Error', 'Kesalahan terjadi saat melakukan pencarian: $e', backgroundColor: Colors.red);
+      Get.snackbar('Error', 'Kesalahan terjadi saat melakukan pencarian: $e',
+          backgroundColor: Colors.red);
     }
   }
 

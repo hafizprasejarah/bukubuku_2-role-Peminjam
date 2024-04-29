@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -69,4 +70,34 @@ class DipinjamController extends GetxController
       change(null, status: RxStatus.error(e.toString()));
     }
   }
+
+
+  String Statusvalue = '';
+  Future<void> updateData(int? id) async {
+    try {
+      Map<String, dynamic> userData = {
+        'status': Statusvalue,
+      };
+
+      final response = await ApiProvider.instance().post(
+        '${Endpoint.pinjam}/$id',
+        data: dio.FormData.fromMap(userData),
+      );
+
+      if (response.statusCode == 201) {
+        Get.snackbar('Success', 'User data updated successfully',
+            backgroundColor: Colors.green);
+      } else {
+        Get.snackbar('Error', 'Failed to update user data',
+            backgroundColor: Colors.red);
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'An error occurred: $e',
+          backgroundColor: Colors.red);
+    }
+  }
+
+
+
+
 }

@@ -16,6 +16,8 @@ import '../modules/koleksi/bindings/koleksi_binding.dart';
 import '../modules/koleksi/views/koleksi_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/pemesanan/bindings/pemesanan_binding.dart';
+import '../modules/pemesanan/views/pemesanan_view.dart';
 import '../modules/peminjaman/bindings/peminjaman_binding.dart';
 import '../modules/peminjaman/views/peminjaman_view.dart';
 import '../modules/register/bindings/register_binding.dart';
@@ -100,6 +102,10 @@ class AppPages {
       page: () => const EmailadminView(),
       binding: EmailadminBinding(),
     ),
-
+    GetPage(
+      name: _Paths.PEMESANAN,
+      page: () => const PemesananView(),
+      binding: PemesananBinding(),
+    ),
   ];
 }

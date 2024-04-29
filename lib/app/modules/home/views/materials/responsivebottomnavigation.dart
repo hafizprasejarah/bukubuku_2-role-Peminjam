@@ -17,7 +17,7 @@ class MyBottomNavigationBar extends StatelessWidget {
         switch (index) {
           case 0:
            // Navigasi ke halaman home
-            Get.toNamed(Routes.DENDA);
+            Get.toNamed(Routes.PEMESANAN);
             break;
           case 1:
             Get.toNamed(Routes.HOME);// Navigasi ke halaman notifications
@@ -30,8 +30,8 @@ class MyBottomNavigationBar extends StatelessWidget {
       },
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.notification_add),
-          label: 'Denda',
+          icon: Icon(Icons.shopping_cart),
+          label: 'Pemesanan',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.home),

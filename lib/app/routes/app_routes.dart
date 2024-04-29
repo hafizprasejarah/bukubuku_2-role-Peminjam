@@ -17,7 +17,7 @@ abstract class Routes {
   static const DIPINJAM = _Paths.DIPINJAM;
   static const SEARCHTAP = _Paths.SEARCHTAP;
   static const EMAILADMIN = _Paths.EMAILADMIN;
-
+  static const PEMESANAN = _Paths.PEMESANAN;
 }
 
 abstract class _Paths {
@@ -35,5 +35,5 @@ abstract class _Paths {
   static const DIPINJAM = '/dipinjam';
   static const SEARCHTAP = '/searchtap';
   static const EMAILADMIN = '/emailadmin';
-
+  static const PEMESANAN = '/pemesanan';
 }
